@@ -4,184 +4,372 @@
 <meta charset="UTF-8">
 <title>Clínica Odontológica</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-body { font-family: Arial; margin: 0; background: #f2f2f2 }
-.container { max-width: 900px; margin: auto; padding: 20px }
-.card { background: white; padding: 20px; margin-top: 20px; border-radius: 6px }
-input, textarea, select { width: 100%; padding: 10px; margin-top: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ccc }
-button { background: #3498db; color: white; padding: 10px; width: 100%; border: none; border-radius: 4px; font-size: 16px; margin-top: 10px }
-#menu button { width: auto; margin-right: 10px }
-.hidden { display: none }
-table { width: 100%; border-collapse: collapse; margin-top: 10px }
-td, th { border: 1px solid #ccc; padding: 8px; text-align: left }
-h2 { margin-top: 0 }
+
+body {
+    font-family: Arial, sans-serif;
+    background: #eef2f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 3px 8px rgba(0,0,0,0.15);
+}
+
+h2 {
+    margin-top: 0;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    font-size: 15px;
+}
+
+button {
+    background: #2980b9;
+    color: white;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #1f6fa3;
+}
+
+#menu button {
+    width: auto;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th {
+    background: #3498db;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    background: #fafafa;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+#loginCard {
+    margin-top: 80px;
+}
+
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
 <div id="loginCard" class="card">
-<h2>Login</h2>
-<input id="loginUser" placeholder="Usuário">
-<input id="loginPass" type="password" placeholder="Senha">
-<button onclick="login()">Entrar</button>
+    <h2>Login</h2>
+    <input id="loginUser" placeholder="Usuário">
+    <input id="loginPass" type="password" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
 </div>
 
 <div id="app" class="hidden">
 
 <div id="menu" class="card">
-<button onclick="show('pacientesCard')">Pacientes</button>
-<button onclick="show('prontuarioCard')">Prontuário</button>
-<button onclick="show('financeiroCard')">Financeiro</button>
-<button onclick="logout()">Sair</button>
+    <button onclick="show('pacientesCard')">Pacientes</button>
+    <button onclick="show('consultasCard')">Consultas</button>
+    <button onclick="show('dentistaCard')">Agenda Dentista</button>
+    <button onclick="show('prontuarioCard')">Prontuário</button>
+    <button onclick="show('financeiroCard')">Financeiro</button>
+    <button onclick="logout()">Sair</button>
 </div>
 
 <div id="pacientesCard" class="card hidden">
-<h2>Cadastro de Pacientes</h2>
-<input id="pNome" placeholder="Nome">
-<input id="pTel" placeholder="Telefone">
-<input id="pEnd" placeholder="Endereço">
-<input id="pNasc" type="date">
-<input id="pCPF" placeholder="CPF">
-<input id="pAlergias" placeholder="Alergias">
-<textarea id="pObs" placeholder="Observações"></textarea>
-<button onclick="addPaciente()">Salvar Paciente</button>
-<table id="pacientesTabela"></table>
+    <h2>Cadastro de Pacientes</h2>
+
+    <input id="pNome" placeholder="Nome">
+    <input id="pTel" placeholder="Telefone">
+    <input id="pEnd" placeholder="Endereço">
+    <input id="pNasc" type="date">
+    <input id="pCPF" placeholder="CPF">
+    <input id="pAlergias" placeholder="Alergias">
+    <textarea id="pObs" placeholder="Observações"></textarea>
+
+    <button onclick="addPaciente()">Salvar Paciente</button>
+    <table id="pacientesTabela"></table>
+</div>
+
+<div id="consultasCard" class="card hidden">
+    <h2>Agendamento (Secretária)</h2>
+
+    <select id="consultaPaciente"></select>
+    <input id="consultaData" type="date">
+    <input id="consultaHora" type="time">
+    <textarea id="consultaObs" placeholder="Observações"></textarea>
+
+    <button onclick="addConsulta()">Agendar Consulta</button>
+    <table id="consultasTabela"></table>
+</div>
+
+<div id="dentistaCard" class="card hidden">
+    <h2>Agenda do Dentista</h2>
+    <table id="agendaDentistaTabela"></table>
 </div>
 
 <div id="prontuarioCard" class="card hidden">
-<h2>Prontuário Digital</h2>
-<select id="prontuarioPaciente"></select>
-<textarea id="prontuarioTexto" placeholder="Registro da evolução"></textarea>
-<button onclick="addProntuario()">Salvar Registro</button>
-<table id="prontuarioTabela"></table>
+    <h2>Prontuário Digital</h2>
+
+    <select id="prontuarioPaciente"></select>
+    <textarea id="prontuarioTexto" placeholder="Registro da evolução"></textarea>
+
+    <button onclick="addProntuario()">Salvar Registro</button>
+    <table id="prontuarioTabela"></table>
 </div>
 
 <div id="financeiroCard" class="card hidden">
-<h2>Financeiro</h2>
-<input id="finDesc" placeholder="Descrição">
-<input id="finValor" type="number" placeholder="Valor (R$)">
-<select id="finTipo">
-<option value="entrada">Entrada</option>
-<option value="saida">Saída</option>
-</select>
-<button onclick="addFinanceiro()">Registrar</button>
-<table id="financeiroTabela"></table>
+    <h2>Financeiro</h2>
+
+    <input id="finDesc" placeholder="Descrição">
+    <input id="finValor" type="number" placeholder="Valor (R$)">
+    <select id="finTipo">
+        <option value="entrada">Entrada</option>
+        <option value="saida">Saída</option>
+    </select>
+
+    <button onclick="addFinanceiro()">Registrar</button>
+    <table id="financeiroTabela"></table>
 </div>
 
 </div>
 </div>
+
 
 <script>
-if (!localStorage.getItem("user")) localStorage.setItem("user","Axellkl");
-if (!localStorage.getItem("pass")) localStorage.setItem("pass","Axellkl13");
+
+if (!localStorage.getItem("usuarios")) {
+    let users = [
+        { user: "axellkl", pass: "axellkl13", cargo: "admin" },
+        { user: "secretaria", pass: "123", cargo: "secretaria" },
+        { user: "dentista1", pass: "123", cargo: "dentista" }
+    ];
+    localStorage.setItem("usuarios", JSON.stringify(users));
+}
+
+let cargoAtual = "";
+let usuarioAtual = "";
 
 function login() {
-let u = loginUser.value;
-let p = loginPass.value;
-if (u === localStorage.getItem("user") && p === localStorage.getItem("pass")) {
-loginCard.classList.add("hidden");
-app.classList.remove("hidden");
-carregarTudo();
-} else { alert("Credenciais inválidas"); }
+    let u = loginUser.value;
+    let p = loginPass.value;
+
+    let usuarios = JSON.parse(localStorage.getItem("usuarios"));
+    let encontrado = usuarios.find(x => x.user === u && x.pass === p);
+
+    if (encontrado) {
+        cargoAtual = encontrado.cargo;
+        usuarioAtual = encontrado.user;
+
+        loginCard.classList.add("hidden");
+        app.classList.remove("hidden");
+
+        aplicarPermissoes();
+        carregarTudo();
+    } else {
+        alert("Credenciais inválidas");
+    }
 }
 
 function logout() {
-app.classList.add("hidden");
-loginCard.classList.remove("hidden");
+    app.classList.add("hidden");
+    loginCard.classList.remove("hidden");
+}
+
+function aplicarPermissoes() {
+
+    if (cargoAtual === "secretaria") {
+        dentistaCard.classList.add("hidden");
+        prontuarioCard.classList.add("hidden");
+    }
+
+    if (cargoAtual === "dentista") {
+        pacientesCard.classList.add("hidden");
+        consultasCard.classList.add("hidden");
+        financeiroCard.classList.add("hidden");
+    }
 }
 
 function show(id) {
-document.querySelectorAll(".card").forEach(e => {
-if (e.id !== "menu" && e.id !== id) e.classList.add("hidden");
-});
-document.getElementById(id).classList.toggle("hidden");
+    document.querySelectorAll(".card").forEach(e => {
+        if (e.id !== "menu" && e.id !== id) {
+            e.classList.add("hidden");
+        }
+    });
+    document.getElementById(id).classList.toggle("hidden");
 }
 
-function load(key) {
-return JSON.parse(localStorage.getItem(key) || "[]");
-}
-function save(key, data) {
-localStorage.setItem(key, JSON.stringify(data));
-}
+function load(k){ return JSON.parse(localStorage.getItem(k) || "[]"); }
+function save(k,d){ localStorage.setItem(k, JSON.stringify(d)); }
 
 function addPaciente() {
-let lista = load("pacientes");
-lista.push({
-nome: pNome.value,
-tel: pTel.value,
-end: pEnd.value,
-nasc: pNasc.value,
-cpf: pCPF.value,
-alergias: pAlergias.value,
-obs: pObs.value
-});
-save("pacientes", lista);
-carregarPacientes();
-alert("Paciente registrado");
+    let lista = load("pacientes");
+    lista.push({
+        nome: pNome.value, tel: pTel.value, end: pEnd.value,
+        nasc: pNasc.value, cpf: pCPF.value, alergias: pAlergias.value, obs: pObs.value
+    });
+    save("pacientes", lista);
+    carregarPacientes();
 }
 
 function carregarPacientes() {
-let lista = load("pacientes");
-let html = "<tr><th>Nome</th><th>Telefone</th><th>CPF</th></tr>";
-lista.forEach(p => {
-html += `<tr><td>${p.nome}</td><td>${p.tel}</td><td>${p.cpf}</td></tr>`;
-});
-pacientesTabela.innerHTML = html;
+    let l = load("pacientes");
+    let html = "<tr><th>Nome</th><th>Telefone</th><th>CPF</th></tr>";
 
-prontuarioPaciente.innerHTML = lista.map((p,i)=>`<option value="${i}">${p.nome}</option>`).join("");
+    l.forEach(p=>{
+        html += `<tr><td>${p.nome}</td><td>${p.tel}</td><td>${p.cpf}</td></tr>`;
+    });
+
+    pacientesTabela.innerHTML = html;
+
+    consultaPaciente.innerHTML =
+        l.map((p,i)=>`<option value="${i}">${p.nome}</option>`).join("");
+
+    prontuarioPaciente.innerHTML =
+        l.map((p,i)=>`<option value="${i}">${p.nome}</option>`).join("");
+}
+
+function addConsulta() {
+    let lista = load("consultas");
+    lista.push({
+        paciente: consultaPaciente.value,
+        data: consultaData.value,
+        hora: consultaHora.value,
+        obs: consultaObs.value
+    });
+    save("consultas", lista);
+    carregarConsultas();
+}
+
+function carregarConsultas() {
+    let lista = load("consultas");
+    let pacientes = load("pacientes");
+
+    let html = "<tr><th>Paciente</th><th>Data</th><th>Hora</th><th>Obs</th></tr>";
+
+    lista.forEach(c=>{
+        html += `<tr>
+            <td>${pacientes[c.paciente]?.nome}</td>
+            <td>${c.data}</td>
+            <td>${c.hora}</td>
+            <td>${c.obs}</td>
+        </tr>`;
+    });
+
+    consultasTabela.innerHTML = html;
+
+    if (cargoAtual === "dentista")
+        agendaDentistaTabela.innerHTML = html;
 }
 
 function addProntuario() {
-let lista = load("prontuario");
-lista.push({
-paciente: prontuarioPaciente.value,
-texto: prontuarioTexto.value,
-data: new Date().toLocaleString()
-});
-save("prontuario", lista);
-carregarProntuario();
-alert("Registro salvo");
+    let lista = load("prontuario");
+    lista.push({
+        paciente: prontuarioPaciente.value,
+        texto: prontuarioTexto.value,
+        data: new Date().toLocaleString()
+    });
+    save("prontuario", lista);
+    carregarProntuario();
 }
 
 function carregarProntuario() {
-let lista = load("prontuario");
-let pacientes = load("pacientes");
-let html = "<tr><th>Paciente</th><th>Registro</th><th>Data</th></tr>";
-lista.forEach(r => {
-html += `<tr><td>${pacientes[r.paciente]?.nome || "?"}</td><td>${r.texto}</td><td>${r.data}</td></tr>`;
-});
-prontuarioTabela.innerHTML = html;
+    let lista = load("prontuario");
+    let pacientes = load("pacientes");
+
+    let html = "<tr><th>Paciente</th><th>Registro</th><th>Data</th></tr>";
+
+    lista.forEach(r=>{
+        html += `<tr>
+            <td>${pacientes[r.paciente]?.nome}</td>
+            <td>${r.texto}</td>
+            <td>${r.data}</td>
+        </tr>`;
+    });
+
+    prontuarioTabela.innerHTML = html;
 }
 
 function addFinanceiro() {
-let lista = load("financeiro");
-lista.push({
-desc: finDesc.value,
-valor: finValor.value,
-tipo: finTipo.value,
-data: new Date().toLocaleString()
-});
-save("financeiro", lista);
-carregarFinanceiro();
-alert("Lançamento registrado");
+    let lista = load("financeiro");
+    lista.push({
+        desc: finDesc.value,
+        valor: finValor.value,
+        tipo: finTipo.value,
+        data: new Date().toLocaleString()
+    });
+    save("financeiro", lista);
+    carregarFinanceiro();
 }
 
 function carregarFinanceiro() {
-let lista = load("financeiro");
-let html = "<tr><th>Descrição</th><th>Valor</th><th>Tipo</th><th>Data</th></tr>";
-lista.forEach(f => {
-html += `<tr><td>${f.desc}</td><td>R$ ${f.valor}</td><td>${f.tipo}</td><td>${f.data}</td></tr>`;
-});
-financeiroTabela.innerHTML = html;
+    let lista = load("financeiro");
+
+    let html =
+        "<tr><th>Descrição</th><th>Valor</th><th>Tipo</th><th>Data</th></tr>";
+
+    lista.forEach(f=>{
+        html += `<tr>
+            <td>${f.desc}</td>
+            <td>R$ ${f.valor}</td>
+            <td>${f.tipo}</td>
+            <td>${f.data}</td>
+        </tr>`;
+    });
+
+    financeiroTabela.innerHTML = html;
 }
 
 function carregarTudo() {
-carregarPacientes();
-carregarProntuario();
-carregarFinanceiro();
+    carregarPacientes();
+    carregarConsultas();
+    carregarProntuario();
+    carregarFinanceiro();
 }
+
 </script>
 
 </body>
